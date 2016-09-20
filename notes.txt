@@ -1,0 +1,13 @@
+Variable size:
+float - 4 bytes
+Glubyte - 1 byte (include GL/glew.h)
+
+//The : _numAttributes(0) ect. is an initialization list. It is a better way to initialize variables, since it avoids an extra copy. 
+
+//Always initialize your buffer IDs to 0
+
+//Always remember to delete your buffers when you are done!
+
+//This is the position struct. When you store a struct or class inside of another struct or class, it is called composition. This is layed out exactly the same in memory as if we had a float position[2], but doing it this way makes more sense.
+
+Uniform variable: const variable for glsl codeing
