@@ -1,6 +1,5 @@
 #include "MainGame.h"
 #include "Errors.h"
-#include "ImageLoader.h"
 
 #include <iostream>
 #include <string>
@@ -10,7 +9,8 @@ MainGame::MainGame() :
 	_screenHeight(768), 
 	_window(nullptr), 
 	_time(0.0f), 
-	_gameState(GameState::PLAY)
+	_gameState(GameState::PLAY),
+	_maxFPS(60.0f)
 {
 }//end MainGame constructor
 
@@ -24,9 +24,11 @@ void MainGame::run()
 {
 	initSystems();
 
-	_sprite.init(-1.0f, -1.0f, 2.0f, 2.0f); //Initialize our sprite. (temporary)
+	_sprites.push_back(new Sprite());
+	_sprites.back()->init(-1.0f, -1.0f, 1.0f, 1.0f, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png"); //Initialize our sprite
 	
-	_playerTexture = ImageLoader::loadPNG("Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
+	_sprites.push_back(new Sprite());
+	_sprites.back()->init(0.0f, -1.0f, 1.0f, 1.0f, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png"); //Initialize our sprite
 
 	gameLoop(); //This only returns when the game ends
 }//end run
@@ -72,9 +74,28 @@ void MainGame::gameLoop()
 	//Will loop until we set _gameState to EXIT
 	while (_gameState != GameState::EXIT) 
 	{
+		float startTicks = SDL_GetTicks(); //used for frame time measuring
+
 		processInput();
 		_time += 0.08f;
 		drawGame();
+		calculateFPS();
+
+		//print only once every 10 frames
+		static int frameCounter = 0;
+		frameCounter++;
+		if (frameCounter == 10)
+		{
+			std::cout << _fps << std::endl;
+			frameCounter = 0;
+		}// end if
+		
+		
+		float frameTicks = SDL_GetTicks() - startTicks;
+		//limit the fps to the max fps
+		if (1000.0f / _maxFPS > frameTicks)
+			SDL_Delay(1000.0f / _maxFPS - frameTicks);
+		//end if
 	}
 }//end gameLoop
 
@@ -92,7 +113,7 @@ void MainGame::processInput()
 				_gameState = GameState::EXIT;
 				break;
 			case SDL_MOUSEMOTION:
-				std::cout << evnt.motion.x << " " << evnt.motion.y << std::endl;
+				//std::cout << evnt.motion.x << " " << evnt.motion.y << std::endl;
 				break;
 		}//end switch
 	}//end while loop
@@ -108,7 +129,6 @@ void MainGame::drawGame()
 	_colorProgram.use();
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _playerTexture.id);//bind the texture
 	GLint textureLocation = _colorProgram.getUniformLocation("mySampler");
 	glUniform1i(textureLocation, 0);
 
@@ -116,10 +136,54 @@ void MainGame::drawGame()
 	GLuint timeLocation = _colorProgram.getUniformLocation("time");
 	glUniform1f(timeLocation, _time);
 
-	_sprite.draw(); //Draw our sprite!
+	//Draw our sprites!
+	for (int i = 0; i < _sprites.size(); i++)
+	{
+		_sprites[i]->draw();
+	}
 
 	glBindTexture(GL_TEXTURE_2D, 0); //unbind the texure
 	_colorProgram.unuse();
 
 	SDL_GL_SwapWindow(_window); //Swap our buffer and draw everything to the screen!
 }//end drawGame
+
+void MainGame::calculateFPS()
+{
+	static const int NUM_SAMPLES = 10;
+	static float frameTimes[NUM_SAMPLES];
+	static int currentFrame = 0;
+
+	static float prevTicks = SDL_GetTicks();
+	
+	float currentTicks;
+	currentTicks = SDL_GetTicks();
+
+	_frameTime = currentTicks - prevTicks;
+	frameTimes[currentFrame % NUM_SAMPLES] = _frameTime;
+
+	prevTicks = currentTicks;
+
+	int count;
+
+	currentFrame++;
+	if (currentFrame < NUM_SAMPLES)
+		count = currentFrame;
+	else
+		count = NUM_SAMPLES;
+	//end if/else
+	
+	float frameTimeAverage = 0;
+	for (int i = 0; i < count; i++)
+		frameTimeAverage += frameTimes[i];
+	//end for
+
+	frameTimeAverage /= count;
+
+	//make sure we don't divide by 0
+	if (frameTimeAverage > 0)
+		_fps = 1000.0f / frameTimeAverage;
+	else
+		_fps = 60.0f;
+	//end if/else
+}

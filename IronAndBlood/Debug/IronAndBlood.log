@@ -1,3 +1,12 @@
 ﻿  MainGame.cpp
-  IronAndBlood.vcxproj -> D:\Google Drive\IronAndBlood\IronAndBlood\Debug\IronAndBlood.exe
-  IronAndBlood.vcxproj -> D:\Google Drive\IronAndBlood\IronAndBlood\Debug\IronAndBlood.pdb (Partial PDB)
+c:\users\chris\desktop\ironandblood\ironandblood\maingame.cpp(77): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+c:\users\chris\desktop\ironandblood\ironandblood\maingame.cpp(97): warning C4244: 'argument': conversion from 'float' to 'Uint32', possible loss of data
+c:\users\chris\desktop\ironandblood\ironandblood\maingame.cpp(139): warning C4018: '<': signed/unsigned mismatch
+c:\users\chris\desktop\ironandblood\ironandblood\maingame.cpp(156): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+c:\users\chris\desktop\ironandblood\ironandblood\maingame.cpp(159): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
+  Generating Code...
+  Compiling...
+  Main.cpp
+  Generating Code...
+  IronAndBlood.vcxproj -> C:\Users\Chris\Desktop\IronAndBlood\Debug\IronAndBlood.exe
+  IronAndBlood.vcxproj -> C:\Users\Chris\Desktop\IronAndBlood\Debug\IronAndBlood.pdb (Partial PDB)
