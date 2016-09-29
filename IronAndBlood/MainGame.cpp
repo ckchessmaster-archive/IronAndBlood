@@ -1,5 +1,5 @@
 #include "MainGame.h"
-#include "Errors.h"
+#include <Pixel/Errors.h>
 
 #include <iostream>
 #include <string>
@@ -7,7 +7,6 @@
 MainGame::MainGame() :
 	_screenWidth(1024), 
 	_screenHeight(768), 
-	_window(nullptr), 
 	_time(0.0f), 
 	_gameState(GameState::PLAY),
 	_maxFPS(60.0f)
@@ -17,17 +16,17 @@ MainGame::MainGame() :
 
 MainGame::~MainGame()
 {
-}
+}//end MainGame destructor
 
 //This runs the game
 void MainGame::run()
 {
 	initSystems();
 
-	_sprites.push_back(new Sprite());
+	_sprites.push_back(new Pixel::Sprite());
 	_sprites.back()->init(-1.0f, -1.0f, 1.0f, 1.0f, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png"); //Initialize our sprite
 	
-	_sprites.push_back(new Sprite());
+	_sprites.push_back(new Pixel::Sprite());
 	_sprites.back()->init(0.0f, -1.0f, 1.0f, 1.0f, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png"); //Initialize our sprite
 
 	gameLoop(); //This only returns when the game ends
@@ -36,25 +35,9 @@ void MainGame::run()
  //Initialize SDL and Opengl and whatever else we need
 void MainGame::initSystems()
 {
-	//Initialize SDL
-	SDL_Init(SDL_INIT_EVERYTHING);
+	Pixel::init();
 
-	_window = SDL_CreateWindow("Iron&Blood", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _screenHeight, SDL_WINDOW_OPENGL);
-	if (_window == nullptr)
-		fatalError("SDL Window could not be created!");
-
-	//Set up our OpenGL context
-	SDL_GLContext glContext = SDL_GL_CreateContext(_window);
-	if (glContext == nullptr)
-		fatalError("SDL_GL context could not be created!");
-
-	// glewExperimental = true; //uncommenct if getting many OpenGL related crashes
-	GLenum error = glewInit();
-	if (error != GLEW_OK)
-		fatalError("Could not initialize glew!");
-
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); //Tell SDL that we want a double buffered window so we dont get any flickering
-	glClearColor(0.0f, 0.0f, 1.0f, 1.0); //Set the background color to blue
+	_window.create("Game Engine", _screenWidth, _screenHeight, 0);
 
 	initShaders();
 }//end initSystems
@@ -74,7 +57,8 @@ void MainGame::gameLoop()
 	//Will loop until we set _gameState to EXIT
 	while (_gameState != GameState::EXIT) 
 	{
-		float startTicks = SDL_GetTicks(); //used for frame time measuring
+		//used for frame time measuring
+		float startTicks = SDL_GetTicks(); 
 
 		processInput();
 		_time += 0.08f;
@@ -145,7 +129,7 @@ void MainGame::drawGame()
 	glBindTexture(GL_TEXTURE_2D, 0); //unbind the texure
 	_colorProgram.unuse();
 
-	SDL_GL_SwapWindow(_window); //Swap our buffer and draw everything to the screen!
+	_window.swapBuffer();
 }//end drawGame
 
 void MainGame::calculateFPS()

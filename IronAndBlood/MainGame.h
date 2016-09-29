@@ -3,10 +3,13 @@
 #include <SDL/SDL.h>
 #include <GL/glew.h>
 
-#include "GLSLProgram.h"
-#include "GLTexture.h"
+#include <Pixel/Pixel.h>
+#include <Pixel/GLSLProgram.h>
+#include <Pixel/GLTexture.h>
 
-#include "Sprite.h"
+#include <Pixel/Sprite.h>
+#include <Pixel/Window.h>
+
 #include <vector>
 
 enum class GameState {PLAY, EXIT};
@@ -14,15 +17,15 @@ enum class GameState {PLAY, EXIT};
 class MainGame
 {
 private:
-	SDL_Window* _window;
+	Pixel::Window _window;
 	int _screenWidth;
 	int _screenHeight;
 
 	GameState _gameState;
 	
-	std::vector<Sprite*> _sprites;
+	std::vector<Pixel::Sprite*> _sprites;
 
-	GLSLProgram _colorProgram;
+	Pixel::GLSLProgram _colorProgram;
 
 	float _fps;
 	float _maxFPS;
