@@ -11,3 +11,5 @@ Glubyte - 1 byte (include GL/glew.h)
 //This is the position struct. When you store a struct or class inside of another struct or class, it is called composition. This is layed out exactly the same in memory as if we had a float position[2], but doing it this way makes more sense.
 
 Uniform variable: const variable for glsl codeing
+
+Git command if visual studio is having trouble: git add -u

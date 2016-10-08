@@ -10,14 +10,19 @@ out vec2 fragmentPosition;
 out vec4 fragmentColor; //RGBA color
 out vec2 fragmentUV;
 
+uniform mat4 P;
+
 void main() {
-	
-	gl_Position.xy = vertexPosition; //Set the x,y position on the screen
-	gl_Position.z = 0.0; //the z position is 0 since we are in 2D
-	gl_Position.w = 1.0; //Indicate that the coordinates are normalized
+	//Set the x,y position on the screen
+	gl_Position.xy = (P * vec4(vertexPosition, 0.0, 1.0)).xy; 
+	//the z position is 0 since we are in 2D
+	gl_Position.z = 0.0; 
+	//Indicate that the coordinates are normalized
+	gl_Position.w = 1.0; 
 	
 	fragmentPosition = vertexPosition;
 	fragmentColor = vertexColor;
 	
-	fragmentUV = vec2(vertexUV.x, 1.0 - vertexUV.y); //flip the v coordinates (openGL has a wierd UV coordinates system that flips v so things appear upside down)
+	//flip the uv coordinates (openGL has a wierd UV coordinates system that flips v so things appear upside down)
+	fragmentUV = vec2(vertexUV.x, 1.0 - vertexUV.y); 
 }

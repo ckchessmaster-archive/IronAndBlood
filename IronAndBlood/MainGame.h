@@ -6,9 +6,9 @@
 #include <Pixel/Pixel.h>
 #include <Pixel/GLSLProgram.h>
 #include <Pixel/GLTexture.h>
-
 #include <Pixel/Sprite.h>
 #include <Pixel/Window.h>
+#include <Pixel/Camera2D.h>
 
 #include <vector>
 
@@ -26,6 +26,7 @@ private:
 	std::vector<Pixel::Sprite*> _sprites;
 
 	Pixel::GLSLProgram _colorProgram;
+	Pixel::Camera2D _camera;
 
 	float _fps;
 	float _maxFPS;
