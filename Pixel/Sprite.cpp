@@ -76,20 +76,33 @@ namespace Pixel
 	//Draws the sprite to the screen
 	void Sprite::draw()
 	{
-		glBindTexture(GL_TEXTURE_2D, _texture.id); //bind the texture
+		//bind the texture
+		glBindTexture(GL_TEXTURE_2D, _texture.id); 
 
-		glBindBuffer(GL_ARRAY_BUFFER, _vboID); //Bind the buffer object
+		//Bind the buffer object
+		glBindBuffer(GL_ARRAY_BUFFER, _vboID); 
 
-		glEnableVertexAttribArray(0); //Tell opengl that we want to use the first attribute array.
+		//Tell opengl that we want to use the first attribute array.
+		glEnableVertexAttribArray(0); 
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position)); //This is the position attribute pointer
-		glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color)); //This is the color attribute pointer
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv)); //This is the UV attribute pointer
+		//This is the position attribute pointer
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position)); 
+		//This is the color attribute pointer
+		glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color)); 
+		//This is the UV attribute pointer
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv)); 
 
-		glDrawArrays(GL_TRIANGLES, 0, 6); //Draw the 6 vertices to the screen
+		//Draw the 6 vertices to the screen
+		glDrawArrays(GL_TRIANGLES, 0, 6); 
 
-		glDisableVertexAttribArray(0); //Disable the vertex attrib array. This  is NOT optional
+		//Disable the vertex attrib array. This  is NOT optional
+		glDisableVertexAttribArray(0); 
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
 
-		glBindBuffer(GL_ARRAY_BUFFER, 0); //Unbind the VBO
-	}
-}
+		//Unbind the VBO
+		glBindBuffer(GL_ARRAY_BUFFER, 0); 
+	}//end draw
+}//end namespace

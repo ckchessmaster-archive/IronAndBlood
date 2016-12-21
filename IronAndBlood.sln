@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IronAndBlood", "IronAndBlood\IronAndBlood.vcxproj", "{717B1CB4-2F53-48B3-9477-E358AAB6300E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{47BAB170-35C3-43A5-910B-D139C67D965E} = {47BAB170-35C3-43A5-910B-D139C67D965E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pixel", "Pixel\Pixel.vcxproj", "{47BAB170-35C3-43A5-910B-D139C67D965E}"
 EndProject

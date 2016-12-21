@@ -9,6 +9,9 @@
 #include <Pixel/Sprite.h>
 #include <Pixel/Window.h>
 #include <Pixel/Camera2D.h>
+#include <Pixel/SpriteBatch.h>
+#include <Pixel/InputManager.h>
+#include <Pixel/Timing.h>
 
 #include <vector>
 
@@ -22,16 +25,17 @@ private:
 	int _screenHeight;
 
 	GameState _gameState;
-	
-	std::vector<Pixel::Sprite*> _sprites;
 
 	Pixel::GLSLProgram _colorProgram;
 	Pixel::Camera2D _camera;
 
-	float _fps;
-	float _maxFPS;
-	float _frameTime;
+	Pixel::SpriteBatch _spriteBatch;
 
+	Pixel::InputManager _inputManager;
+	Pixel::FpsLimiter _fpsLimiter;
+
+	float _maxFPS;
+	float _fps;
 	float _time;
 
 	void initSystems();
@@ -39,7 +43,6 @@ private:
 	void gameLoop();
 	void processInput();
 	void drawGame();
-	void calculateFPS();
 
 public:
 	MainGame();
