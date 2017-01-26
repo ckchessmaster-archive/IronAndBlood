@@ -1,2 +1,6 @@
-﻿  IronAndBlood.vcxproj -> C:\Users\Chris\Desktop\IronAndBlood\Debug\IronAndBlood.exe
+﻿  MainGame.cpp
+c:\users\chris\desktop\ironandblood\ironandblood\maingame.cpp(68): warning C4018: '<': signed/unsigned mismatch
+c:\users\chris\desktop\ironandblood\ironandblood\maingame.cpp(108): warning C4244: 'argument': conversion from 'Sint32' to 'float', possible loss of data
+c:\users\chris\desktop\ironandblood\ironandblood\maingame.cpp(199): warning C4018: '<': signed/unsigned mismatch
+  IronAndBlood.vcxproj -> C:\Users\Chris\Desktop\IronAndBlood\Debug\IronAndBlood.exe
   IronAndBlood.vcxproj -> C:\Users\Chris\Desktop\IronAndBlood\Debug\IronAndBlood.pdb (Partial PDB)

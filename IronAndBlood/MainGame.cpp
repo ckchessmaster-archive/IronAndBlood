@@ -65,6 +65,15 @@ void MainGame::gameLoop()
 
 		_camera.update();
 
+		for (int i = 0; i < _bullets.size();) {
+			if (_bullets[i].udpate() == true) {
+				_bullets[i] = _bullets.back();
+				_bullets.pop_back();
+			} else {
+				i++;
+			}//end if/else
+		}//end for
+
 		drawGame();
 
 		_fps = _fpsLimiter.end();
@@ -72,7 +81,7 @@ void MainGame::gameLoop()
 		//print only once every 10 frames
 		static int frameCounter = 0;
 		frameCounter++;
-		if (frameCounter == 10)
+		if (frameCounter == 10000)
 		{
 			std::cout << _fps << std::endl;
 			frameCounter = 0;
@@ -85,7 +94,7 @@ void MainGame::processInput()
 {
 	SDL_Event evnt;
 
-	const float CAMERA_SPEED = 10.0f;
+	const float CAMERA_SPEED = 5.0f;
 	const float SCALE_SPEED = 0.1f;
 
 	//Will keep looping until there are no more events to process
@@ -96,7 +105,7 @@ void MainGame::processInput()
 				break;
 			//end case SDL_QUIT
 			case SDL_MOUSEMOTION:
-				//std::cout << evnt.motion.x << " " << evnt.motion.y << std::endl;
+				_inputManager.setMouseCoords(evnt.motion.x, evnt.motion.y);
 				break;
 			//end case SDL_MOUSEMOTION
 			case SDL_KEYDOWN:
@@ -107,6 +116,14 @@ void MainGame::processInput()
 				_inputManager.releaseKey(evnt.key.keysym.sym);
 				break;
 			//end case SDL_KEYUP
+			case SDL_MOUSEBUTTONDOWN:
+				_inputManager.pressKey(evnt.button.button);
+				break;
+			//end case SDL_MOUSEBUTTONDOWN
+			case SDL_MOUSEBUTTONUP:
+				_inputManager.releaseKey(evnt.button.button);
+				break;
+			//end SDL_MOUSEBUTTONUP
 		}//end switch
 	}//end while loop
 
@@ -129,6 +146,17 @@ void MainGame::processInput()
 	if (_inputManager.isKeyPressed(SDLK_e)) {
 		_camera.setScale(_camera.getScale() - SCALE_SPEED);
 	}//end if
+
+	if (_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+		glm::vec2 mouseCoords = _inputManager.getMouseCoords();
+		mouseCoords = _camera.convertScreenToWorld(mouseCoords);
+		
+		glm::vec2 playerPosition(0.0f);
+		glm::vec2 direction = mouseCoords - playerPosition;
+		direction = glm::normalize(direction);
+
+		_bullets.emplace_back(playerPosition, direction, 5.0f, 1000);
+	}//end if
 }//end processInput
 
  //Draws the game using the almighty OpenGL
@@ -148,10 +176,6 @@ void MainGame::drawGame()
 	//Tell the shader that the texture is in texture unit 0
 	glUniform1i(textureLocation, 0);
 
-	//Set uniforms
-	GLuint timeLocation = _colorProgram.getUniformLocation("time");
-	glUniform1f(timeLocation, _time);
-
 	//Set the camera matrix
 	GLuint pLocation = _colorProgram.getUniformLocation("P");
 	glm::mat4 cameramatrix = _camera.getcameraMatrix();
@@ -170,9 +194,11 @@ void MainGame::drawGame()
 	color.a = 255;
 
 	//Draw some sprites
-	_spriteBatch.draw(pos, uv, texture.id, 0.0f, color);
-	_spriteBatch.draw(pos + glm::vec4(50, 0, 0, 0), uv, texture.id, 0.0f, color);
-	
+	_spriteBatch.draw(pos, uv, texture.id, 0.0f, color);	
+
+	for (int i = 0; i < _bullets.size(); i++) {
+		_bullets[i].draw(_spriteBatch);
+	}//end for
 
 	_spriteBatch.end();
 

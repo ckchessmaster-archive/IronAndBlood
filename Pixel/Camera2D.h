@@ -20,7 +20,10 @@ namespace Pixel
 
 		void init(int screenWidth, int screenHeight);
 
+		//updates the camera matrix if needed
 		void update();
+
+		glm::vec2 convertScreenToWorld(glm::vec2 screenCoords);
 
 		//setters
 		void setPosition(const glm::vec2& newPosition) { _position = newPosition; _needsMatrixUpdate = true; }

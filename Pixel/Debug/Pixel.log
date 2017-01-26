@@ -1,6 +1,2 @@
-﻿  Timing.cpp
-c:\users\chris\desktop\ironandblood\pixel\timing.cpp(25): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-c:\users\chris\desktop\ironandblood\pixel\timing.cpp(28): warning C4244: 'argument': conversion from 'float' to 'Uint32', possible loss of data
-c:\users\chris\desktop\ironandblood\pixel\timing.cpp(39): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-c:\users\chris\desktop\ironandblood\pixel\timing.cpp(42): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
+﻿  Camera2D.cpp
   Pixel.vcxproj -> C:\Users\Chris\Desktop\IronAndBlood\Debug\Pixel.lib
